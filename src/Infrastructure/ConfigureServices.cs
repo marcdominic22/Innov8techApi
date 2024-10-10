@@ -24,8 +24,8 @@ public static class ConfigureServices
         }
         else
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+            services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options => 
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
                     builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
         }
 
