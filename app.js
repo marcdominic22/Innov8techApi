@@ -1,14 +1,20 @@
 const express = require('express');
 const app = express();
-const port = 3000;
 
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const helmet = require('helmet');
+
+const config = require('./config');
 const packageJson = require('./package.json');
 const routes = require('./routes/index');
 const ghlRoutes = require('./routes/ghl/index');
 
 app.use(express.json());
+app.use(helmet());
+
+// Access environment variables
+const port = config.port;
 
 const swaggerOptions = {
     swaggerDefinition: {
@@ -32,10 +38,13 @@ const swaggerOptions = {
   
   // Swagger docs setup
   const swaggerDocs = swaggerJsDoc(swaggerOptions);
+
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
   app.use('/api', routes);
   app.use('/ghl', ghlRoutes);
+
+  app.disable('x-powered-by');
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

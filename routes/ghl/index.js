@@ -1,5 +1,6 @@
 const express = require('express');
 const CryptoJS = require("crypto-js");
+const config = require('../../config');
 const router = express.Router();
 
 const GhlSsoGuard = (req, res, next) => {
@@ -7,7 +8,7 @@ const GhlSsoGuard = (req, res, next) => {
     if (req.headers['x-sso-session']) {
         try {
             // Decrypt the x-sso-session header
-            var bytes  = CryptoJS.AES.decrypt(req.headers['x-sso-session'], '760c3380-e831-4e2a-aa75-977104a0a841');
+            var bytes  = CryptoJS.AES.decrypt(req.headers['x-sso-session'], config.ghlSsoKey);
             var originalText = bytes.toString(CryptoJS.enc.Utf8);
             
             // Attach the decrypted session to the request object
