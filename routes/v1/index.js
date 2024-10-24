@@ -1,11 +1,18 @@
 const express = require('express');
 const router = express.Router();
 
-// Simple GET endpoint
+  /**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: Sample API CRUD Operations
+ */
+
 /**
  * @swagger
- * /users:
+ * /v1/users:
  *   get:
+ *     tags: [Users]
  *     description: Returns List of Users
  *     responses:
  *       200:
@@ -17,8 +24,9 @@ router.get('/users', (req, res) => {
 
 /**
  * @swagger
- * /api:
+ * /v1/users:
  *   get:
+ *     tags: [Users]
  *     description: Returns User by Id
  *     responses:
  *       200:
@@ -31,8 +39,9 @@ router.get('/users/:id', (req, res) => {
 
 /**
  * @swagger
- * /api:
+ * /v1/users:
  *   post:
+ *     tags: [Users]
  *     description: Receives data and responds with a message
  *     requestBody:
  *       required: true
@@ -55,8 +64,9 @@ router.post('/users', (req, res) => {
 
 /**
  * @swagger
- * /api:
+ * /v1/users:
  *   put:
+ *     tags: [Users]
  *     description: Updates User by Id
  *     responses:
  *       200:
@@ -70,8 +80,9 @@ router.put('/users/:id', (req, res) => {
 // Simple GET endpoint
 /**
  * @swagger
- * /api:
- *   get:
+ * /v1/users:
+ *   delete:
+ *     tags: [Users]
  *     description: Returns Hello World
  *     responses:
  *       200:

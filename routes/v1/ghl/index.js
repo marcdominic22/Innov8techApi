@@ -1,6 +1,6 @@
 const express = require('express');
 const CryptoJS = require("crypto-js");
-const config = require('../../config');
+const config = require('../../../config');
 const router = express.Router();
 
 const GhlSsoGuard = (req, res, next) => {
@@ -29,18 +29,18 @@ const GhlSsoGuard = (req, res, next) => {
     }
   };
 
-  /**
+ /**
  * @swagger
  * tags:
- *   name: SSO
- *   description: SSO related operations
+ *   name: GHL
+ *   description: GHL related operations
  */
 
 /**
  * @swagger
- * /ghl/sso:
+ * /v1/ghl/sso:
  *   get:
- *     tags: [SSO]
+ *     tags: [GHL]
  *     summary: Retrieve user info from the GHL SSO session.
  *     description: >
  *       Returns the combined user profile data from the incoming GHL SSO session and your app's back-end.
