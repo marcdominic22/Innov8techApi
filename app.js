@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const https = require('https');
 const fs = require('fs');
+const path = require('path');
 
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
@@ -16,6 +17,9 @@ const v1Routes = require('./routes/v1');
 app.use(express.json());
 app.use(helmet());
 app.use(cors());
+
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Access environment variables
 const port = config.port;
