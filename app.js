@@ -1,8 +1,5 @@
 const express = require('express');
 const app = express();
-const https = require('https');
-const fs = require('fs');
-const path = require('path');
 
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
@@ -10,16 +7,12 @@ const helmet = require('helmet');
 const cors = require('cors');
 
 const config = require('./config');
-const packageJson = require('./package.json');
 
 const v1Routes = require('./routes/v1');
 
 app.use(express.json());
 app.use(helmet());
 app.use(cors());
-
-// Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Access environment variables
 const port = config.port;
@@ -71,12 +64,12 @@ const swaggerOptions = {
   app.disable('x-powered-by');
 
   // custom 404
-  app.use((req, res, next) => {
+  app.use((req, res) => {
     res.status(404).send("Sorry can't find that!")
   })
 
   // custom error handler
-  app.use((err, req, res, next) => {
+  app.use((err, req, res) => {
     console.error(err.stack)
     res.status(500).send('Internal Server Error')
   })
