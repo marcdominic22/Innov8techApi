@@ -48,6 +48,7 @@ const swaggerOptions = {
 
   // Serve swagger.json file
   app.get('/swagger.json', (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
     res.json(swaggerDocs);
   });
 
