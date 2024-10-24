@@ -6,20 +6,20 @@ const fs = require('fs');
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const helmet = require('helmet');
+const cors = require('cors');
 
 const config = require('./config');
 const packageJson = require('./package.json');
 
 const v1Routes = require('./routes/v1');
 
-const routes = require('./routes/v1/index');
-const ghlRoutes = require('./routes/v1/ghl/index');
-
 app.use(express.json());
 app.use(helmet());
+app.use(cors());
 
 // Access environment variables
 const port = config.port;
+
 
 const swaggerOptions = {
     swaggerDefinition: {
@@ -29,57 +29,34 @@ const swaggerOptions = {
         version: '1.0.0',
         description: 'Innov8Tech API with Swagger documentation',
         contact: {
-          name: 'Contact Innov8Tech Dev Team',
+          name: 'Innov8Tech Dev Team',
+          url: 'https://innov8tech.co', // Optional URL for the contact
+          email: 'dev@innov8tech.com'
         },
         version: "v1",
-        paths: {
-          "/v1/ghl/sso": {
-            "get": {
-              "tags": [
-                "GHL"
-              ],
-              "summary": "Retrieve user info from the GHL SSO session",
-              "description": "Returns the combined user profile data from the incoming GHL SSO session and your app's back-end.",
-              "parameters": [
-                {
-                  "name": "x-sso-session",
-                  "in": "header",
-                  "required": "true",
-                  "description": "The SSO session key for your app, as returned by the GHL main app.",
-                },
-              ],
-              "responses": {
-                "200": {
-                  "description": "Successfully retrieved user info",
-                  },
-                "400": {
-                  "description": "Bad Request"
-                },
-                "401": {
-                  "description": "Unauthorized"
-                },
-                "500": {
-                  "description": "Internal Server Error"
-                }
-              }
-            }
-                    }
-                  },
         servers: [
             {
               url: `http://localhost:${port}/v1`, // Dynamic server URL with port
-              description: 'Version 1 API',
+              description: 'Version 1 of API',
             },
           ],
       },
     },
     apis: ['./routes/v1/ghl/*.js'], // Path to the API docs (this file)
+    // apis: ['./routes/**/*.js'], // Path to all the API docs
   };
   
   // Swagger docs setup
   const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+  // Serve swagger.json file
+  app.get('/swagger.json', (req, res) => {
+    res.json(swaggerDocs);
+  });
+
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
+    explorer: true, // Enable API explorer
+  }));
 
   app.get('/', (req, res) => {
     res.redirect('/api-docs');
