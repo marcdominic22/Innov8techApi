@@ -54,11 +54,8 @@ const swaggerOptions = {
     res.json(swaggerDocs);
   });
 
-  const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
-
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
-    explorer: true,
-    customCssUrl: CSS_URL // Enable API explorer
+    explorer: true, // Enable API explorer
   }));
 
   app.get('/', (req, res) => {
